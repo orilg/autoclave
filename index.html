@@ -1,155 +1,212 @@
 <!DOCTYPE html>
-<html>
-
-  <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Autoclave : A skeleton for flask-based apps, for rapid development and deployment" />
-
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>Autoclave</title>
-  </head>
-
-  <body>
-
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/vmalloc/autoclave">View on GitHub</a>
-
-          <h1 id="project_title">Autoclave</h1>
-          <h2 id="project_tagline">A skeleton for flask-based apps, for rapid development and deployment</h2>
-
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/vmalloc/autoclave/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/vmalloc/autoclave/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
-
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>
+      Autoclave
+</title>
+<link rel="stylesheet" href="css/style.css" type="text/css" media="screen" />
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/bootstrap-affix.js"></script>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div class="container">
+  <div class="hero-unit">
+    <div class="row-fluid">
+      <div class="span4">
+        <img src="img/autoclave.png"/>
+      </div>
+      <div class="span8">
         <h1>Autoclave</h1>
-
-<p>Autoclave is a ready-to-deploy skeleton for building in-house web-based apps. Its goal is to provide a "batteries included" approach for rapid webapp development for small/medium scale apps.</p>
-
-<p>Autoclave includes:</p>
-
-<ul>
-<li>A fabric file that can deploy the app to your (preferably dedicated) Ubuntu-based server, as well as rapidly build a test environment on your local machine</li>
-<li>A backend implemented in Python using the <a href="http://flask.pocoo.org">Flask</a> framework, running on top of <a href="http://www.gevent.org/">gevent</a>
-</li>
-<li>A MongoDB database engine (deployed to the same server by default)</li>
-<li>A Redis instance (deployed to the same server by default)</li>
-<li>A Celery/Celerybeat worker, along with a RabbitMQ broker, to easily support background operations carried out by your app</li>
-<li>An <em>nginx</em> frontend proxying your app and serving static files.</li>
-<li>A stylesheet overlaying <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap</a>
-</li>
-<li>jQuery ready to use, along with <a href="http://pinesframework.org/pnotify/">pnotify</a> notifications</li>
-<li>A server-side utility library for rapidly implementing REST api's over HTTP with JSON encapsulation</li>
-</ul><h1>Getting Started</h1>
-
-<ol>
-<li>Clone the autoclave repository to your development environment. Let's say you put it in <code>~/autoclave</code>.</li>
-<li>Install dependencies: <code>pip install -r ~/autoclave/pip_requirements</code>
-</li>
-<li>To debug autoclave, you'll need <code>tmux</code>, <code>redis</code>, <code>mongodb</code>, <code>rabbitmq</code> and <code>nginx</code>.</li>
-<li>Chdir into the directory, and run your first instance: <code>fab debug</code>. This will bring up <em>tmux</em> with several panes, one for each running service.</li>
-<li>Open your browser and point it to <em><a href="http://127.0.0.1:8080">http://127.0.0.1:8080</a></em>, and voilla!</li>
-</ol><h1>Checklist for Starting an App</h1>
-
-<ol>
-<li>Change your app name in <code>flask_app/config/app.py -&gt; APP_NAME</code>.</li>
-</ol><h1>Deploying to a Server</h1>
-
-<blockquote>
-<p><em>NOTE</em>: The automated deployment assumes there are no other critical services running on the server</p>
-</blockquote>
-
-<p>To deploy your app, just run <code>fab deploy</code>:</p>
-
-<p>fab deploy -H your_host -u root -p yourpassword</p>
-
-<p><strong>NOTE</strong>: you'll need to have <code>fabtools</code> installed to run the fabric file. It is automatically installed in the debug steps above, but necessary if you skip them.</p>
-
-<h1>What's Inside?</h1>
-
-<h2>HTML, CSS</h2>
-
-<p>Autoclave includes the excellent Twitter Bootsrap by default. You can add and override styles by editing <code>static_src/style.less</code> and rebuilding the CSS with <code>fab compile_css</code>.</p>
-
-<h2>Data Storage with MongoDB</h2>
-
-<p>To get a MongoDB connection (via Pymongo):</p>
-
-<p>from .db import get_connection
- connection = get_connection()
- connection["my_db"]["my_collection"].find({"field" : "value"})</p>
-
-<h2>Caching, Key-Value Store and IPC with Redis</h2>
-
-<p>For many use cases like distributed locking, caching etc. Redis is extremely useful. Autoclave includes Redis, and a working binding:</p>
-
-<p>from .redis import get_connection
- connection = get_connection() # a redis-py StrictRedis connection
- connection.set("key", "value")</p>
-
-<h2>Background Tasks with Celery</h2>
-
-<p>You can easily add background tasks to your webapp by editing <code>flask_app/tasks.py</code>. For instance, you can add:</p>
-
-<p>@celery.task
- def test_task():
-     time.sleep(5)</p>
-
-<p>For more information on how to fire your task, refer to the <a href="http://www.celeryproject.org/docs-and-support/">Celery documentation</a>.</p>
-
-<h2>Javascript</h2>
-
-<h3>Notifications</h3>
-
-<p>Notifications can be easily achieved like so:</p>
-
-<p>autoclave.notify_info("Hey there!");</p>
-
-<p>Or alternatively:</p>
-
-<p>autoclave.notify("Hello", "error");</p>
-
-<p>Available notification types are "error", "warning", "info" and "success", as in <a href="http://pinesframework.org/pnotify/">pnotify</a>.</p>
-
-<h3>API</h3>
-
-<p>Making your app's client-side code call into the backend via a clean API doesn't have to be a mess. Define your API as a Python function decorated with the <code>api_handler</code> decorator:</p>
-
-<p>from .api import api_handler</p>
-
-<p>@api_handler("/format_string_and_two_numbers", string=str, a=int, b=int)
-  def format(string, a, b):
-      return {"result" : "{}{}{}".format(string, a, b)}</p>
-
-<p>And your function will be accessible for POSTing through <em></em>/format_string_and_two_numbers. (API ROOT is set with API_ROOT in the configuration file). Calling your function is done by posting a JSON dict with the arguments to the specified URL, and the returned JSON is the exact dict returned by the function. Adding code that calls this from your app's client-side Javascript is easy:</p>
-
-<p>autoclave.api.call("/api/format_string_and_two_numbers", {"string" : "hello", "a" : 2, "b", 3})
-     .success(function(data) {
-         autoclave.notify_success("Result is " + data.result)
-     });</p>
-
-<p>Also, Autoclave provides the @returns_json decorator for views that want to return simple Pythonic values to be translated into JSON automatically.</p>
-      </section>
+        <h4>Get flask projects cookin'. Fast.</h4>
+      </div>
     </div>
-
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Autoclave maintained by <a href="https://github.com/vmalloc">vmalloc</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
+  </div>
+</div>
+<div class="container">
+  <div class="row-fluid">
+    <div class="span3">
+      <ul class="nav" id="navmenu">
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#getting-started">Getting Started</a></li>
+      </ul>
     </div>
-
-    
-
-  </body>
+    <div class="span9">
+      <a name="overview"></a>
+      <h2>What is it?</h2>
+      <div class="row">
+        <div class="span12">
+          <p>Autoclave is a skeleton project (template, as some might call it) for rapid development and deployment of web applications.</p>
+          <p>Web apps require a lot of boilerplate just to get started. How the app is structured, how it is deployed, how would the different technologies at play will be set up are just some of the annoying questions a developer has to face.</p>
+          <p>While large scale customer-facing websites still need to be carefully crafted to take scaling and other factors into account, many apps that are written today are intended for in-house use, and are generally more 'quick and dirty', putting an emphasis on rapid prototyping and flexibility. For these apps you want a comfortable skeleton to start with, bringing you as fast as possible to the state of deploying a first version.</p>
+          <p>Autoclave is exactly that. It gives you a lot of facilities out of the box, and is basically ready for deployment straight away. Autoclave is also optimized to be deployed to a dedicated server (usually a VM, which is a likely case for in-house deployments nowadays), but it can also be easily deployed in other environments.</p>
+        </div>
+      </div>
+      <h2>On the Surface</h2>
+      <div class="row">
+        <div class="span6">
+          <div class="row-fluid">
+            <div class="span2">
+              <img src="img/flask.png"/>
+            </div>
+            <div class="span10">
+              <h4>
+        Flask Powered
+              </h4>
+              <p>
+        Autoclave builds on <strong>Flask</strong> for the backend code. Flask is awesome, minimalistic, expressive and easy to maintain.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="span6">
+          <div class="row-fluid">
+            <div class="span2">
+              <img src="img/bootstrap.png"/>
+            </div>
+            <div class="span10">
+              <h4>
+        Bootstrap Styling
+              </h4>
+              <p>
+            Autoclave uses <a href="http://twitter.github.com/bootstrap/">bootstrap</a> for styling and CSS generation, making your design clean from the start.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span6">
+          <div class="row-fluid">
+            <div class="span2">
+              <img src="img/notifications.png"/>
+            </div>
+            <div class="span10">
+              <h4>
+        Notifications
+              </h4>
+              <p>
+            Autoclave includes <a href="http://pinesframework.org/pnotify/">pnotify</a> for easy and slick user notifications, popups, and more.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="span6">
+          <div class="row-fluid">
+            <div class="span2">
+              <img src="img/jquery.png"/>
+            </div>
+            <div class="span10">
+              <h4>jQuery</h4>
+              jQuery is built in and ready for use.
+            </div>
+          </div>
+        </div>
+      </div>
+      <h2>Under the Hood</h2>
+      <div class="row">
+        <div class="span6">
+          <div class="row-fluid">
+            <div class="span2">
+              <div class="row">
+                <div class="span6"><img src="img/mongodb.png"/></div>
+                <div class="span6"><img src="img/celery.png"/></div>
+              </div>
+              <div class="row">
+                <div class="span6"><img src="img/redis.png"/></div>
+                <div class="span6"><img src="img/rabbitmq.png"/></div>
+              </div>
+            </div>
+            <div class="span10">
+              <h4>
+            All you need, out of the box
+              </h4>
+              <p>
+            Autoclave is powered by <a href="http://www.mongodb.org">MongoDB</a> for storage, <a href="http://redis.io">redis</a> for caching and IPC purposes, and <a href="http://celeryproject.org">Celery</a> backed by <a href="http://www.rabbitmq.com">RabbitMQ</a> for asynchronous tasks.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="span6">
+          <div class="row-fluid">
+            <div class="span2">
+              <div class="row">
+                <img src="img/uwsgi.png"/>
+              </div>
+            </div>
+            <div class="span10">
+              <h4>
+            Nginx + uWSGI
+              </h4>
+              <p>
+            Autoclave uses a default configuration of nginx, forwarding requests via uWSGI. Static files are served directly from nginx to better utilize your server resources.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span6">
+          <div class="row-fluid">
+            <div class="span2">
+              <img src="img/config.png"/>
+            </div>
+            <div class="span10">
+              <h4>
+            Simple Deployment and Debugging
+              </h4>
+              <p>
+            Deployment is done via a <a href="http://fabfile.org">Fabric</a> file. It can deploy the entire app plus dependencies to a remote server, or run a <strong>tmux</strong> split-screen setup for debugging, letting you monitor everything in one glance. It also comes ready with a <strong>Vagrant</strong> file, enabling you to deploy directly to vagrant.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="span6">
+          <div class="row-fluid">
+            <div class="span2">
+              <img src="img/openid.png"/>
+            </div>
+            <div class="span10">
+              <h4>
+            OpenID
+              </h4>
+              <p>
+            Autoclave includes OpenID authentication out of the box.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a name="getting-started"></a>
+      <h2>Getting Started</h2>
+      <div class="span12">
+        <ol>
+          <li>
+Clone the source: <pre>$ git clone https://github.com/vmalloc/autoclave</pre>
+          </li>
+          <li>
+Install dependencies: <pre>$ pip install -r autoclave/pip_requirements.txt</pre>
+          </li>
+          <li>
+            Edit <code>autoclave/flask_app/config/app.py</code> to customize your app. You'll probably just want to change <code>APP_NAME</code> at first.
+          </li>
+          <li>
+            To debug your app, run <pre>$ fab debug</pre>
+          </li>
+          <li>
+            To deploy to a server, run<pre>$ fab deploy -H root@myserver -p password</pre>
+          </li>
+          <li>
+            You can also deploy to a Vagrant local VM: <pre>$ fab deploy_vagrant</pre>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+$(function () {
+  $("#navmenu").affix();
+});
+  </script>
+</body>
 </html>
