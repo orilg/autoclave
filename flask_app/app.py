@@ -35,3 +35,5 @@ def login():
 def create_or_login(resp):
     auth.authenticate_from_openid_response(resp)
     return flask.redirect(oid.get_next_url())
+
+from . import testing_views
