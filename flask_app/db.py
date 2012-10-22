@@ -8,6 +8,14 @@ class AutoclaveMongoKit(flask_mongokit.MongoKit):
 
 db = AutoclaveMongoKit()
 
+@db.register
+class SampleDatabaseObject(flask_mongokit.Document):
+    __collection__ = "samples"
+    structure = {
+        "value" : int,
+    }
+    default_values = {"value" : 100}
+
 #################################### models ####################################
 # @db.register
 # class User(flask_mongokit.Document):
@@ -21,4 +29,3 @@ db = AutoclaveMongoKit()
 #             "unique" : True,
 #         }
 #     ]
-
