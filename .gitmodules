@@ -1,3 +1,6 @@
-[submodule "bootstrap"]
-	path = bootstrap
+[submodule "web/static/bootstrap"]
+	path = web/static/bootstrap
 	url = https://github.com/twitter/bootstrap.git
+[submodule "deploy/ansible"]
+	path = deploy/ansible
+	url = https://github.com/ansible/ansible.git
